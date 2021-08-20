@@ -4,4 +4,9 @@
 
 body {
   margin: 0;
+  background-color: #b6b6b6;
+}
+
+#logo {
+  color: black;
 }
