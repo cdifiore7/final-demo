@@ -1,3 +1,84 @@
 #logo {
   color: black;
+  position: absolute;
+  width: 159px;
+  height: 51px;
+  left: 21px;
+  top: 12px;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+#top-line {
+  position: absolute;
+  width: 1152px;
+  top: 76.93px;
+  border: 1px solid #000;
+}
+
+#signin {
+  position: absolute;
+  width: 117px;
+  height: 121px;
+  left: 518px;
+  top: 156px;
+  font-size: 24px;
+  font-weight: 400;
+}
+
+#email-address {
+  position: absolute;
+  width: 136px;
+  height: 35px;
+  left: 430px;
+  top: 221px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+#password {
+  position: absolute;
+  width: 128px;
+  height: 45px;
+  top: 328px;
+  left: 430px;
+  font-weight: 400;
+  font-size: 16px;
+}
+
+#textbox1,
+#textbox2 {
+  background-color: white;
+  position: absolute;
+  width: 257px;
+  height: 40px;
+  left: 430px;
+}
+
+#textbox1 {
+  top: 250px;
+}
+
+#textbox2 {
+  top: 356px;
+}
+
+#sign-up {
+  width: 201px;
+  height: 46px;
+  top: 421px;
+  left: 418px;
+  position: absolute;
+  font-size: 21px;
+}
+
+#enter {
+  position: absolute;
+  width: 148px;
+  height: 70px;
+  left: 492px;
+  top: 483px;
+  background-color: #c1c1c1;
+  font-size: 24px;
+  font-weight: 400;
 }

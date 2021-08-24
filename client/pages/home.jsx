@@ -20,18 +20,21 @@ export default class userlogin extends Component {
   render() {
     return (
     <div className="container">
-      <h2>Micro Egg PCs</h2>
+      <h2 id="logo">Micro Egg PCs</h2>
+      <hr id="top-line"></hr>
     <form onSubmit={this.handleSubmit}>
       <div className="container" size="lg" id="email">
-        <h3>Email</h3>
-        <input type="text" className="form-control"></input>
+        <h2 id="signin">Sign In</h2>
+        <h3 id="email-address">Email Address</h3>
+        <input type="text" className="form-control" id="textbox1"></input>
       </div>
-      <div className="container" size="lg" id="password">
-        <h3>Password</h3>
-        <input type="text" className="form-control"></input>
+      <div className="container" size="lg">
+        <h3 id="password">Password</h3>
+        <input type="text" className="form-control" id="textbox2"></input>
       </div>
-      <button type="submit">
-        Login
+      <h2 id="sign-up">New to Micro Egg?</h2>
+      <button type="submit" id="enter">
+        ENTER
         </button>
 </form>
 </div>);
