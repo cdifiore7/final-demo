@@ -82,3 +82,15 @@
   font-size: 24px;
   font-weight: 400;
 }
+
+#signinregister {
+  align-items: right;
+  width: 135px;
+  height: 30px;
+  top: -332px;
+  left: 417px;
+  size: 16px;
+  font-weight: 400;
+  background-color: #b6b6b6;
+  text-decoration-line: underline;
+}
