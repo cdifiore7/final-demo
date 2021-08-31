@@ -1,21 +1,30 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import Home from './home';
 
-class userlogin extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'user@gmail.com',
-      password: 'password1'
+      email: 'chris@gmail.com',
+      password: '12345'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bing(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleChange2 = this.handleChange2.bind(this);
+    this.registerButton = this.registerButton.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ value: event.target.value });
+    this.setState({ email: event.target.value });
+  }
+
+  handleChange2(event) {
+    this.setState({ password: event.target.value });
+  }
+
+  registerButton() {
+    this.props.view('register');
+    event.preventDefault();
   }
 
   handleSubmit(event) {
@@ -24,7 +33,6 @@ class userlogin extends React.Component {
       email: this.state.email,
       password: this.state.password
     };
-
     fetch('api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -54,11 +62,11 @@ class userlogin extends React.Component {
       <div className="container" size="lg" id="email">
         <h2 id="signin">Sign In</h2>
         <h3 id="email-address">Email Address</h3>
-        <input type="email" className="form-control" id="textbox1" onChange={this.handleChange}></input>
+        <input type="email" className="form-control" id="textbox1" onChange={this.handleChange} value={this.state.email}></input>
       </div>
       <div className="container" size="lg">
         <h3 id="password">Password</h3>
-        <input type="password" className="form-control" id="textbox2" onChange={this.handleChange}></input>
+        <input type="password" className="form-control" id="textbox2" onChange={this.handleChange2} value={this.state.password}></input>
       </div>
       <h2 id="sign-up">New to Micro Egg?</h2>
       <button type="submit" id="enter" onClick={this.handleSubmit}>
@@ -69,4 +77,4 @@ class userlogin extends React.Component {
   }
 }
 
-export default userlogin;
+export default Login;

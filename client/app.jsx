@@ -1,9 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Home from './pages/home';
-import userlogin from './pages/login';
-import { Link } from 'react-router-dom';
+import loginpage from './pages/loginpage';
 
 export default class App extends React.Component {
   render() {
