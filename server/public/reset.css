@@ -4,4 +4,11 @@
 
 body {
   margin: 0;
+  background-color: #b6b6b6;
+  width: 1152px;
+  height: 700px;
+}
+
+#logo {
+  color: black;
 }
