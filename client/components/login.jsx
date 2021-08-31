@@ -10,16 +10,13 @@ class Login extends React.Component {
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.handleChange2 = this.handleChange2.bind(this);
     this.registerButton = this.registerButton.bind(this);
   }
 
   handleChange(event) {
-    this.setState({ email: event.target.value });
-  }
-
-  handleChange2(event) {
-    this.setState({ password: event.target.value });
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   registerButton() {
@@ -62,11 +59,11 @@ class Login extends React.Component {
       <div className="container" size="lg" id="email">
         <h2 id="signin">Sign In</h2>
         <h3 id="email-address">Email Address</h3>
-        <input type="email" className="form-control" id="textbox1" onChange={this.handleChange} value={this.state.email}></input>
+        <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange} value={this.state.email}></input>
       </div>
       <div className="container" size="lg">
         <h3 id="password">Password</h3>
-        <input type="password" className="form-control" id="textbox2" onChange={this.handleChange2} value={this.state.password}></input>
+        <input type="password" className="form-control" id="textbox2" name="password" onChange={this.handleChange} value={this.state.password}></input>
       </div>
       <h2 id="sign-up">New to Micro Egg?</h2>
       <button type="submit" id="enter" onClick={this.handleSubmit}>
