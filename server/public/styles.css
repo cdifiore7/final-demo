@@ -12,7 +12,7 @@
 #top-line {
   position: absolute;
   width: 1152px;
-  top: 76.93px;
+  top: 60.93px;
   border: 1px solid #000;
 }
 
@@ -64,7 +64,7 @@
 }
 
 #sign-up {
-  width: 201px;
+  width: 500px;
   height: 46px;
   top: 421px;
   left: 418px;
@@ -93,4 +93,81 @@
   font-weight: 400;
   background-color: #b6b6b6;
   text-decoration-line: underline;
+}
+
+#signupbutton {
+  background-color: #b6b6b6;
+  border-color: #b6b6b6;
+  text-decoration: underline;
+}
+
+#whitebox {
+  background-color: white;
+  width: 783px;
+  height: 537px;
+  top: 91px;
+  left: 186px;
+  position: absolute;
+}
+
+#register-header {
+  top: 35px;
+  left: 345px;
+  font-weight: 400;
+  font-size: 20px;
+  position: absolute;
+}
+
+#email-registration {
+  position: absolute;
+  left: 215px;
+  top: 101px;
+  font-size: 14px;
+}
+
+#email-input {
+  position: absolute;
+  left: 215px;
+  top: 135px;
+  width: 309px;
+  height: 32px;
+}
+
+#password-registration {
+  position: absolute;
+  left: 215px;
+  top: 195px;
+  font-size: 14px;
+}
+
+#password-input {
+  position: absolute;
+  width: 309px;
+  height: 32px;
+  left: 215px;
+  top: 228px;
+}
+
+#password-input-confirm {
+  position: absolute;
+  width: 309px;
+  left: 215px;
+  top: 315px;
+}
+
+#confirm-password {
+  position: absolute;
+  left: 215px;
+  top: 285px;
+  font-size: 14px;
+}
+
+#register-confirm {
+  background-color: #dc2626;
+  position: absolute;
+  width: 244px;
+  height: 32px;
+  left: 260px;
+  top: 400px;
+  color: white;
 }

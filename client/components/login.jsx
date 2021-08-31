@@ -52,25 +52,25 @@ class Login extends React.Component {
 
   render() {
     return (
-    <div className="container">
-      <h2 id="logo">Micro Egg PCs</h2>
-      <hr id="top-line"></hr>
-    <form onSubmit={this.handleSubmit}>
-      <div className="container" size="lg" id="email">
-        <h2 id="signin">Sign In</h2>
-        <h3 id="email-address">Email Address</h3>
-        <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange} value={this.state.email}></input>
-      </div>
-      <div className="container" size="lg">
-        <h3 id="password">Password</h3>
-        <input type="password" className="form-control" id="textbox2" name="password" onChange={this.handleChange} value={this.state.password}></input>
-      </div>
-      <h2 id="sign-up">New to Micro Egg?</h2>
-      <button type="submit" id="enter" onClick={this.handleSubmit}>
-        ENTER
-        </button>
-</form>
-</div>);
+      <div className="container">
+        <h2 id="logo">Micro Egg PCs</h2>
+        <hr id="top-line"></hr>
+        <form onSubmit={this.handleSubmit}>
+          <div className="container" size="lg" id="email">
+            <h2 id="signin">Sign In</h2>
+            <h3 id="email-address">Email Address</h3>
+            <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange} value={this.state.email}></input>
+          </div>
+          <div className="container" size="lg">
+            <h3 id="password">Password</h3>
+            <input type="password" className="form-control" id="textbox2" name="password" onChange={this.handleChange} value={this.state.password}></input>
+          </div>
+          <h2 id="sign-up">New to Micro Egg? <button type="button" id="signupbutton">Sign Up!</button> </h2>
+          <button type="submit" id="enter" onClick={this.handleSubmit}>
+            ENTER
+          </button>
+        </form>
+      </div>);
   }
 }
 
