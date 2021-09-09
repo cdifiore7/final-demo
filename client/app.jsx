@@ -2,7 +2,8 @@
 import React from 'react';
 import Home from './pages/home';
 import loginpage from './pages/loginpage';
-import registerpage from './pages/registerpage';
+import signupPage from './pages/signupPage';
+import signUp from './components/signup';
 
 export default class App extends React.Component {
   render() {

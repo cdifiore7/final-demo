@@ -2,8 +2,8 @@
 import React from 'react';
 import Login from '../components/login';
 import loginPage from './loginpage';
-import registerpage from './registerpage';
-import Register from '../components/register';
+import signupPage from './signupPage';
+import Register from '../components/signup';
 
 export default function Home(props) {
   return (
