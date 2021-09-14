@@ -1,10 +1,10 @@
 import React from 'react';
-import signUp from '../components/signup';
+import Signup from '../components/signup';
 
-export default function signupPage(props) {
+export default function SignupPage(props) {
   return (
     <div className='container'>
-      <signUp />
+      <Signup />
     </div>
   );
 }

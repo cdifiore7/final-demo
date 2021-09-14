@@ -1,14 +1,16 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import Login from '../components/login';
-import loginPage from './loginpage';
-import signupPage from './signupPage';
-import Register from '../components/signup';
+import LoginPage from './loginpage';
+import SignupPage from './signupPage';
+import Signup from '../components/signup';
+import { render } from 'react-dom';
 
 export default function Home(props) {
   return (
     <div>
-      <Register />
+      <SignupPage />
     </div>
   );
+
 }
