@@ -25,23 +25,25 @@ app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required fields');
-  }
-  argon2
-    .hash(password)
-    .then(hashedPassword => {
-      const sql = `
+  } else {
+    argon2
+      .hash(password)
+      .then(hashedPassword => {
+        const sql = `
     insert into "users" ("email", "hashedPassword")
     values ($1, $2)
     reuturning "email", "userId", "createdAt"
     `;
-      const params = [email, hashedPassword];
-      return db.query(sql, params);
-    })
-    .then(result => {
-      const [user] = result.rows;
-      res.status(201).json(user);
-    })
-    .catch(err => next(err));
+        const params = [email, hashedPassword];
+        db.query(sql, params)
+          .then(result => {
+            // eslint-disable-next-line no-undef
+            res.status(201).json(response.rows[0]);
+          })
+          .catch(err => next(err));
+      })
+      .catch(err => next(err));
+  }
 });
 
 app.post('/api/login', (req, res, next) => {
