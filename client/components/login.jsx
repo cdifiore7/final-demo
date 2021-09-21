@@ -10,14 +10,7 @@ class Login extends React.Component {
       password: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.registerButton = this.registerButton.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
   }
 
   registerButton() {
@@ -44,8 +37,6 @@ class Login extends React.Component {
   }
 
   render() {
-    const { user } = this.context;
-    if (user) return <Home />;
     return (
       <div className="container">
         <h2 id="logo">Micro Egg PCs</h2>
@@ -54,11 +45,11 @@ class Login extends React.Component {
           <div className="container" size="lg" id="email">
             <h2 id="signin">Sign In</h2>
             <h3 id="email-address">Email Address</h3>
-            <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange}></input>
+            <input type="email" className="form-control" id="textbox1" name="email"></input>
           </div>
           <div className="container" size="lg">
             <h3 id="password">Password</h3>
-            <input type="password" className="form-control" id="textbox2" name="password" onChange={this.handleChange}></input>
+            <input type="password" className="form-control" id="textbox2" name="password"></input>
           </div>
           <h2 id="sign-up">New to Micro Egg? <button type="button" onClick={this.registerButton} id="signupbutton">Sign Up!</button> </h2>
           <button type="submit" id="enter">

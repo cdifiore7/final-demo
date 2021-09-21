@@ -1,12 +1,12 @@
 import React from 'react';
 
-class Signup extends React.Component {
+export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
       password: '',
-      confirmPassword: ''
+      passwordConfirm: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -14,9 +14,9 @@ class Signup extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const newState = {};
-    newState[name] = value;
-    this.setState(newState);
+    const newstate = {};
+    newstate[name] = value;
+    this.setState(newstate);
   }
 
   handleSubmit(event) {
@@ -46,7 +46,7 @@ class Signup extends React.Component {
             <h6 id="password-registration">Password</h6>
             <input type="password" className="form-control" id="password-input" name="password" onChange={this.handleChange} />
             <h6 id="confirm-password">Confirm Password</h6>
-            <input type="password" className="form-control" id="password-input-confirm" name="confirmPassword" onChange={this.handleChange} />
+            <input type="password" className="form-control" id="password-input-confirm" name="passwordConfirm" onChange={this.handleChange} />
             <button type="submit" id="register-confirm">Register</button>
             </form>
             </div>
@@ -54,4 +54,3 @@ class Signup extends React.Component {
     );
   }
 }
-export default Signup;

@@ -15,26 +15,23 @@ const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 
 const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  connectionString: process.env.DATABASE_URL
 });
 
 app.post('/api/signup', (req, res, next) => {
-  const { userId, email, password } = req.body;
+  const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required fields');
   }
   argon2
     .hash(password)
-    .then(hashedPassword => {
+    .then(password => {
       const sql = `
-    insert into "users" ("email", "hashedPassword")
+    insert into "users" ("email", "password")
     values ($1, $2)
-    reuturning "userId", "email", "createdAt"
+    reuturning "email", "userId", "createdAt"
     `;
-      const params = [email, hashedPassword, userId];
+      const params = [email, password];
       return db.query(sql, params);
     })
     .then(result => {
@@ -46,9 +43,9 @@ app.post('/api/signup', (req, res, next) => {
 
 app.post('/api/login', (req, res, next) => {
   const sql = `
-  select "userId", "hashedPassword"
+  select "userId", "email", "password"
   from "users"
-  where "email" = ($1) and "hashedPassword = ($2)`;
+  where "email" = ($1) and "password = ($2)`;
   const { email, password } = req.body;
   const params = [email, password];
   if (!email || !password) {
@@ -60,9 +57,9 @@ app.post('/api/login', (req, res, next) => {
       if (!user) {
         throw new ClientError(401, 'invalid login');
       }
-      const { userId, hashedPassword } = user;
+      const { userId, password } = user;
       return argon2
-        .verify(hashedPassword, password)
+        .verify(password)
         .then(isMatching => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
@@ -81,6 +78,22 @@ app.post('/api/login', (req, res, next) => {
     })
     .catch(err => next(err));
 });
+app.get('api/users', (req, res, next) => {
+  const { userId } = req.user;
+
+  const sql = `
+  select "userId,
+  "email"
+  from "users"
+  where "userId" = ($1)`;
+  const param = [userId];
+  db.query(sql, param)
+    .then(result => {
+      res.json(result.rows);
+    })
+    .catch(err => next(err));
+});
+
 app.use(authorizationMiddleware);
 app.use(errorMiddleware);
 
