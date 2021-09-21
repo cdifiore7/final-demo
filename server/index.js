@@ -15,7 +15,10 @@ const jsonMiddleware = express.json();
 app.use(jsonMiddleware);
 
 const db = new pg.Pool({
-  connectionString: process.env.DATABASE_URL
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 app.post('/api/signup', (req, res, next) => {
@@ -25,13 +28,13 @@ app.post('/api/signup', (req, res, next) => {
   }
   argon2
     .hash(password)
-    .then(password => {
+    .then(hashedPassword => {
       const sql = `
-    insert into "users" ("email", "password")
+    insert into "users" ("email", "hashedPassword")
     values ($1, $2)
     reuturning "email", "userId", "createdAt"
     `;
-      const params = [email, password];
+      const params = [email, hashedPassword];
       return db.query(sql, params);
     })
     .then(result => {
@@ -43,7 +46,7 @@ app.post('/api/signup', (req, res, next) => {
 
 app.post('/api/login', (req, res, next) => {
   const sql = `
-  select "userId", "email", "password"
+  select "userId", "email", "hashedPassword"
   from "users"
   where "email" = ($1) and "password = ($2)`;
   const { email, password } = req.body;
