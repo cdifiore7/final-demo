@@ -6,10 +6,12 @@ export default class Signup extends React.Component {
     this.state = {
       email: '',
       password: '',
-      passwordConfirm: ''
+      passwordConfirm: '',
+      errorMessage: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.accountCreate = this.accountCreate.bind(this);
   }
 
   handleChange(event) {
@@ -21,19 +23,51 @@ export default class Signup extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    const req = {
+    let message = '';
+    if (!this.state.email) {
+      message = 'email is required';
+      this.setState({ message: message });
+    } else if (!this.state.password) {
+      message = 'password is required';
+      this.setState({ message: message });
+    } else if (this.state.password !== this.state.passwordConfirm) {
+      message = 'passwords do not match';
+      this.setState({ message: message });
+    } else {
+      const newAccount = {
+        email: this.state.email,
+        password: this.state.password
+      };
+      this.accountCreate(newAccount);
+      this.setState({ email: '', password: '', passwordConfirm: '' });
+    } window.location.hash = '';
+  }
+
+  accountCreate(newAccount) {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(this.state)
-    };
-    fetch('/api/signup', req)
-      .then(res => res.json());
-    window.location.hash = '';
+      body: JSON.stringify(newAccount)
+    })
+      .then(response => {
+        if (!response.ok) {
+          this.setState({ errorMessage: 'Email already registered' });
+        } else {
+          this.setState({ errorMessage: '' });
+          response.JSON();
+        }
+      })
+      .catch(error => {
+        console.error('Error', error);
+      });
   }
 
   render() {
+    const value = this.state;
+    const message = this.state.message;
+    const errorMessage = this.state.errorMessage;
     return (
       <div className="container">
         <h2 id="logo">Micro Egg PCs</h2>
@@ -42,12 +76,14 @@ export default class Signup extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <h3 id="register-header">Register</h3>
             <h6 id="email-registration">Email Address</h6>
-            <input type="email" className="form-control" id="email-input" name="email" onChange={this.handleChange} />
+            <input type="email" className="form-control" value={value.email} id="email-input" name="email" onChange={this.handleChange} />
             <h6 id="password-registration">Password</h6>
-            <input type="password" className="form-control" id="password-input" name="password" onChange={this.handleChange} />
+            <input type="password" className="form-control" value={value.password} id="password-input" name="password" onChange={this.handleChange} />
             <h6 id="confirm-password">Confirm Password</h6>
-            <input type="password" className="form-control" id="password-input-confirm" name="passwordConfirm" onChange={this.handleChange} />
+            <input type="password" className="form-control" value={value.passwordConfirm} id="password-input-confirm" name="passwordConfirm" onChange={this.handleChange} />
             <button type="submit" id="register-confirm">Register</button>
+            <div className="help-block mt-2" id="mt-2"> {message}</div>
+            <div className="help-block mt-2" id="mt-2"> {errorMessage}</div>
             </form>
             </div>
       </div>

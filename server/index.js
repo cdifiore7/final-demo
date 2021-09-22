@@ -5,7 +5,6 @@ const staticMiddleware = require('./static-middleware');
 const pg = require('pg');
 const ClientError = require('./client-error');
 const argon2 = require('argon2');
-const authorizationMiddleware = require('./authorization-middleware');
 const jwt = require('jsonwebtoken');
 
 const app = express();
@@ -25,61 +24,58 @@ app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required fields');
-  } else {
-    argon2
-      .hash(password)
-      .then(hashedPassword => {
-        const sql = `
+  }
+  argon2
+    .hash(password)
+    .then(hashedPassword => {
+      const sql = `
     insert into "users" ("email", "hashedPassword")
     values ($1, $2)
     reuturning "email", "userId", "createdAt"
     `;
-        const params = [email, hashedPassword];
-        db.query(sql, params)
-          .then(result => {
-            // eslint-disable-next-line no-undef
-            res.status(201).json(response.rows[0]);
-          })
-          .catch(err => next(err));
-      })
-      .catch(err => next(err));
-  }
+      const params = [email, hashedPassword];
+      return db.query(sql, params);
+    })
+    .then(result => {
+      const [user] = result.rows;
+      res.status(201).json(user);
+    })
+    .catch(err => next(err));
 });
 
 app.post('/api/login', (req, res, next) => {
-  const sql = `
-  select "userId", "email", "hashedPassword"
-  from "users"
-  where "email" = ($1) and "password = ($2)`;
   const { email, password } = req.body;
-  const params = [email, password];
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required');
   }
-  db.query(sql, params)
+
+  const sql = `
+  select "userId", "email", "hashedPassword"
+  from "users"
+  where "email" = $1 `;
+
+  db.query(sql, [email])
     .then(result => {
-      const [user] = result.rows;
+      const user = result.rows[0];
       if (!user) {
         throw new ClientError(401, 'invalid login');
       }
-      const { userId, password } = user;
+      const { hashedPassword } = user;
       return argon2
-        .verify(password)
+        .verify(hashedPassword, password)
         .then(isMatching => {
           if (!isMatching) {
             throw new ClientError(401, 'invalid login');
           }
-          const payload = {
-            email: email,
-            userId: userId
-          };
+          const payload = user;
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           const payloadtoken = {
             token: token,
             user: payload
           };
-          res.json(payloadtoken);
-        });
+          res.status(201).json(payloadtoken);
+        })
+        .catch(err => next(err));
     })
     .catch(err => next(err));
 });
@@ -99,7 +95,6 @@ app.get('api/users', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.use(authorizationMiddleware);
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

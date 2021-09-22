@@ -167,7 +167,14 @@
   position: absolute;
   width: 244px;
   height: 32px;
-  left: 260px;
-  top: 400px;
+  left: 250px;
+  top: 380px;
   color: white;
+}
+
+#mt-2 {
+  position: relative;
+  color: #dc2626;
+  top: 425px;
+  left: 280px;
 }
