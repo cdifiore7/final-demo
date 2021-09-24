@@ -26,7 +26,7 @@ class Login extends React.Component {
       },
       body: JSON.stringify(this.state)
     };
-    fetch('/api/login', req)
+    fetch('/api/auth/login', req)
       .then(res => res.json())
       .then(result => {
         if (result.user && result.token) {

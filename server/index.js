@@ -20,7 +20,7 @@ const db = new pg.Pool({
   }
 });
 
-app.post('/api/signup', (req, res, next) => {
+app.post('/api/auth/sign-up', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required fields');
@@ -43,10 +43,10 @@ app.post('/api/signup', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/login', (req, res, next) => {
+app.post('/api/auth/login', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    throw new ClientError(400, 'email and password are required');
+    throw new ClientError(401, 'email and password are required');
   }
 
   const sql = `
@@ -70,27 +70,12 @@ app.post('/api/login', (req, res, next) => {
           const payload = user;
           const token = jwt.sign(payload, process.env.TOKEN_SECRET);
           const payloadtoken = {
-            token: token,
-            user: payload
+            user: payload,
+            token: token
           };
           res.status(201).json(payloadtoken);
         })
         .catch(err => next(err));
-    })
-    .catch(err => next(err));
-});
-app.get('api/users', (req, res, next) => {
-  const { userId } = req.user;
-
-  const sql = `
-  select "userId,
-  "email"
-  from "users"
-  where "userId" = ($1)`;
-  const param = [userId];
-  db.query(sql, param)
-    .then(result => {
-      res.json(result.rows);
     })
     .catch(err => next(err));
 });

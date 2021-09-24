@@ -15,10 +15,12 @@ export default class Signup extends React.Component {
   }
 
   handleChange(event) {
-    const { name, value } = event.target;
-    const newstate = {};
-    newstate[name] = value;
-    this.setState(newstate);
+    const name = event.target.name;
+    const value = event.target.value;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   handleSubmit(event) {
@@ -44,7 +46,7 @@ export default class Signup extends React.Component {
   }
 
   accountCreate(newAccount) {
-    fetch('/api/signup', {
+    fetch('/api/auth/sign-up', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
