@@ -6,7 +6,7 @@ const pg = require('pg');
 const ClientError = require('./client-error');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
-
+const authorizationMiddleware = require('./authorization-middleware');
 const app = express();
 app.use(staticMiddleware);
 
@@ -79,7 +79,7 @@ app.post('/api/auth/login', (req, res, next) => {
     })
     .catch(err => next(err));
 });
-
+app.use(authorizationMiddleware);
 app.use(errorMiddleware);
 
 app.listen(process.env.PORT, () => {

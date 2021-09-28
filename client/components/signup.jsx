@@ -27,13 +27,13 @@ export default class Signup extends React.Component {
     event.preventDefault();
     let message = '';
     if (!this.state.email) {
-      message = 'email is required';
+      message = 'Email is required';
       this.setState({ message: message });
     } else if (!this.state.password) {
-      message = 'password is required';
+      message = 'Password is required';
       this.setState({ message: message });
     } else if (this.state.password !== this.state.passwordConfirm) {
-      message = 'passwords do not match';
+      message = 'Passwords do not match';
       this.setState({ message: message });
     } else {
       const newAccount = {

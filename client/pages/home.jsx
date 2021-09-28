@@ -2,9 +2,10 @@
 import React from 'react';
 import LoginPage from './loginpage';
 import SignupPage from './signupPage';
-import { render } from 'react-dom';
+import { parseRoute } from '../lib/';
 
 export default function Home(props) {
+
   return (
     <div>
       <SignupPage />
