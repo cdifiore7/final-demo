@@ -1,7 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import { parseRoute } from './lib';
 import Home from './pages/home';
-import loginpage from './pages/loginpage';
+import Loginpage from './pages/loginpage';
+import SignupPage from './pages/signupPage';
 
 export default class App extends React.Component {
   render() {
