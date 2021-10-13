@@ -243,6 +243,23 @@
   width: 170px;
   height: 100px;
   top: 350px;
-  left: -400px;
-  position: relative;
+  left: 300px;
+  position: fixed;
+}
+
+.newest-arrival {
+  width: 170px;
+  height: 100px;
+  position: fixed;
+  top: 520px;
+  left: 20px;
+}
+
+#cartbox {
+  top: 100px;
+  position: absolute;
+  background-color: white;
+  width: 1023px;
+  height: 476px;
+  left: 65px;
 }

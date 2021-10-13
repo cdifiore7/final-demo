@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import Home from '../pages/home';
 import { Link } from 'react-router-dom';
 
 class Login extends React.Component {

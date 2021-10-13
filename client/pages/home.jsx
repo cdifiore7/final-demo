@@ -4,6 +4,7 @@ import LoginPage from './loginpage';
 import SignupPage from './signupPage';
 import { parseRoute } from '../lib/';
 import { Link } from 'react-router-dom';
+import Cart from '../components/cart';
 
 export default class Home extends Component {
   render() {
@@ -15,12 +16,11 @@ export default class Home extends Component {
     <Link to= '/loginpage'>
     <button className="sign-in">Sign In/Register</button>
     </Link>
+    <Link to ='/cart'>
     <img className="cart-icon" src ="https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=170667a&w=0&h=kEh5VLsTHukWc7xf2BvUs8ssqS_d7vkK0-xU3MDpO7s=" />
+    </Link>
     <h4 id="top-sellers">Top Sellers</h4>
     <img src="./images/Top-Sellers/Alienware-m15-R3.jpg" className="top-seller" />
-    <img src="./images/Top-Sellers/Alienware-X17-1.jpg" className="top-seller" />
-    <img src="./images/Top-Sellers/rtx-2060.jpg" className="top-seller" />
-    <img src="./images/Top-Sellers/rtx-2080-ti.jpg" className="top-seller" />
     <div className="container" id="productbox">
       <h5>Products</h5>
       <hr></hr>
@@ -33,10 +33,8 @@ export default class Home extends Component {
     </div>
     <h4 id="top-rated">Top Rated Items</h4>
     <img src="./images/Top-Rated/ABD-i5.png" className="top-rated" />
-    <img src="./images/Top-Rated/ibuypower-pc-i7.jpg" className="top-rated" />
-    <img src="./images/Top-Rated/Corsair-32gb.jpg" className="top-rated" />
-    <img src="./images/Top-Rated/ibuypower-pc-i7.jpg" className="top-rated" />
     <h4 id="newproducts">Newest Arrivals</h4>
+    <img src="./images/Newest-Arrivals/Diablo_2-resurrected.jpg" className="newest-arrival" />
     </div>
     );
   }
