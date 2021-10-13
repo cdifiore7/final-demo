@@ -5,7 +5,6 @@ import Home from './pages/home';
 import SignupPage from './pages/signupPage';
 import { Switch, Route, Link, BrowserRouter as Router, BrowserRouter } from 'react-router-dom';
 import LoginPage from './pages/loginpage';
-import Signup from './components/signup';
 
 export default class App extends React.Component {
   render() {
@@ -13,9 +12,15 @@ export default class App extends React.Component {
       <div className="ui container">
         <BrowserRouter>
         <div>
+          <Route exact path ='/'>
           <Home />
-          <Route path='/' exact Component={Home} />
-          <Route path='/api/auth/sign-up' exact Component={Signup} />
+          </Route>
+          <Route exact path='/signupPage'>
+            <SignupPage />
+          </Route>
+          <Route exact path='/loginpage'>
+            <LoginPage />
+          </Route>
         </div>
         </BrowserRouter>
       </div>

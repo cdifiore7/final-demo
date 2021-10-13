@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import Home from '../pages/home';
+import { Link } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -39,7 +40,9 @@ class Login extends React.Component {
   render() {
     return (
       <div className="container">
-        <h2 id="logo">Micro Egg PCs</h2>
+        <Link to ='/'>
+        <h2 id="logo">MegaPower PCs</h2>
+        </Link>
         <hr id="top-line"></hr>
         <form onSubmit={this.handleSubmit} method="POST">
           <div className="container" size="lg" id="email">
@@ -51,7 +54,10 @@ class Login extends React.Component {
             <h3 id="password">Password</h3>
             <input type="password" className="form-control" id="textbox2" name="password"></input>
           </div>
-          <h2 id="sign-up">New to Micro Egg? <button type="button" onClick={this.registerButton} id="signupbutton">Sign Up!</button> </h2>
+
+          <h2 id="sign-up">New to MegaPower?
+          <Link to ="/signupPage">
+           <button type="button" onClick={this.registerButton} id="signupbutton">Sign Up!</button> </Link>  </h2>
           <button type="submit" id="enter">
             ENTER
           </button>
