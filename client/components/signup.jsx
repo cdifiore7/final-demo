@@ -47,12 +47,12 @@ export default class Signup extends React.Component {
   }
 
   accountCreate(newAccount) {
-    fetch('/api/auth/sign-up', {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newAccount)
+      body: JSON.stringify(this.state)
     })
       .then(response => {
         if (!response.ok) {

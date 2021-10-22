@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -10,30 +10,39 @@ class Login extends React.Component {
       password: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.registerButton = this.registerButton.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  registerButton() {
-    event.preventDefault();
+  handleChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    const req = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(this.state)
+    const data = {
+      email: this.state.email,
+      password: this.state.password
     };
-    fetch('/api/auth/login', req)
-      .then(res => res.json())
-      .then(result => {
-        if (result.user && result.token) {
-          const { handleLogin } = this.context;
-          handleLogin(result);
+    fetch('api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+      .then(res => {
+        if (!res.ok) {
+          alert('User not found');
+          throw new Error(res.statusText);
+        } else {
+          return res.json();
         }
-      });
+      })
+      .then(data => {
+        this.setState({ users: data });
+        this.props.history.push('/');
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
@@ -47,16 +56,17 @@ class Login extends React.Component {
           <div className="container" size="lg" id="email">
             <h2 id="signin">Sign In</h2>
             <h3 id="email-address">Email Address</h3>
-            <input type="email" className="form-control" id="textbox1" name="email"></input>
+            <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange}
+            value={this.state.email}></input>
           </div>
           <div className="container" size="lg">
             <h3 id="password">Password</h3>
-            <input type="password" className="form-control" id="textbox2" name="password"></input>
+            <input type="password" className="form-control" id="textbox2" name="password" onChange={this.handleChange} value={this.state.password}></input>
           </div>
 
           <h2 id="sign-up">New to MegaPower?
           <Link to ="/signupPage">
-           <button type="button" onClick={this.registerButton} id="signupbutton">Sign Up!</button> </Link>  </h2>
+           <button type="button" id="signupbutton">Sign Up!</button> </Link>  </h2>
           <button type="submit" id="enter">
             ENTER
           </button>
@@ -65,4 +75,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
