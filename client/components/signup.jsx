@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Signup extends React.Component {
   constructor(props) {
@@ -46,12 +47,12 @@ export default class Signup extends React.Component {
   }
 
   accountCreate(newAccount) {
-    fetch('/api/auth/sign-up', {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(newAccount)
+      body: JSON.stringify(this.state)
     })
       .then(response => {
         if (!response.ok) {
@@ -72,7 +73,9 @@ export default class Signup extends React.Component {
     const errorMessage = this.state.errorMessage;
     return (
       <div className="container">
-        <h2 id="logo">Micro Egg PCs</h2>
+        <Link to ="/">
+        <h2 id="logo">MegaPower PCs</h2>
+        </Link>
         <hr id="top-line"></hr>
           <div className="container" id="whitebox">
           <form onSubmit={this.handleSubmit}>

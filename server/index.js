@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 require('dotenv/config');
 const express = require('express');
 const errorMiddleware = require('./error-middleware');
@@ -20,7 +21,7 @@ const db = new pg.Pool({
   }
 });
 
-app.post('/api/auth/sign-up', (req, res, next) => {
+app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
     throw new ClientError(400, 'email and password are required fields');
@@ -43,41 +44,32 @@ app.post('/api/auth/sign-up', (req, res, next) => {
     .catch(err => next(err));
 });
 
-app.post('/api/auth/login', (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email || !password) {
-    throw new ClientError(401, 'email and password are required');
-  }
-
+app.post('/api/login', (req, res, next) => {
   const sql = `
-  select "userId", "email", "hashedPassword"
+  select "email", "password"
   from "users"
-  where "email" = $1 `;
-
-  db.query(sql, [email])
+  where "email" = ($1) and "password" = ($2)`;
+  const { email, password } = req.body;
+  const params = [email, password];
+  if (!email || !password) {
+    throw new ClientError(400, 'email and password are required');
+  }
+  db.query(sql, params)
     .then(result => {
-      const user = result.rows[0];
-      if (!user) {
-        throw new ClientError(401, 'invalid login');
+      const user = result.rows;
+      if (!user.length) {
+        res.status(404).json({
+          error: 'Incorrect user and/or password.'
+        });
+      } else {
+        res.status(200).json({
+          message: 'You are logged in!'
+        });
       }
-      const { hashedPassword } = user;
-      return argon2
-        .verify(hashedPassword, password)
-        .then(isMatching => {
-          if (!isMatching) {
-            throw new ClientError(401, 'invalid login');
-          }
-          const payload = user;
-          const token = jwt.sign(payload, process.env.TOKEN_SECRET);
-          const payloadtoken = {
-            user: payload,
-            token: token
-          };
-          res.status(201).json(payloadtoken);
-        })
-        .catch(err => next(err));
-    })
-    .catch(err => next(err));
+    }).catch(err => {
+      console.error(err);
+      res.status(500).json({ error: 'An error ocurred' });
+    });
 });
 app.use(authorizationMiddleware);
 app.use(errorMiddleware);
