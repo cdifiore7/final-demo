@@ -15,12 +15,13 @@ CREATE TABLE "users" (
 ) WITH (
   OIDS=FALSE
 );
-CREATE TABLE "products" (
+CREATE TABLE "public"."products" (
     "productId" serial NOT NULL,
     "supplierId" integer NOT NULL,
     "name" text NOT NULL,
     "description" TEXT NOT NULL,
     "price" integer NOT NULL,
+    "imageUrl" text NOT NULL,
     CONSTRAINT "products_pk" PRIMARY KEY ("productId")
 ) WITH (
   OIDS=FALSE

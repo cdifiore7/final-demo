@@ -20,7 +20,44 @@ const db = new pg.Pool({
     rejectUnauthorized: false
   }
 });
-
+app.get('/api/products', (req, res, next) => {
+  const sql = `
+    select "productId",
+           "name",
+           "price",
+           "imageUrl",
+           "shortDescription"
+      from "products"
+  `;
+  db.query(sql)
+    .then(result => res.json(result.rows))
+    .catch(err => next(err));
+});
+app.get('/api/products/:productId', (req, res, next) => {
+  const productId = parseInt(req.params.productId, 10);
+  if (!productId) {
+    throw new ClientError(400, 'productId must be a positive integer');
+  }
+  const sql = `
+    select "productId",
+           "name",
+           "price",
+           "imageUrl",
+           "shortDescription",
+           "longDescription"
+      from "products"
+     where "productId" = $1
+  `;
+  const params = [productId];
+  db.query(sql, params)
+    .then(result => {
+      if (!result.rows[0]) {
+        throw new ClientError(404, `cannot find product with productId ${productId}`);
+      }
+      res.json(result.rows[0]);
+    })
+    .catch(err => next(err));
+});
 app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
