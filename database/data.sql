@@ -9,4 +9,16 @@ values (
   1999,
   '/images/ABD-i5.png',
   'an epic gamer pc'
+),
+insert into "users" (
+  "userId",
+  "email",
+  "password",
+  "createdAt"
+)
+values (
+  "1",
+  "bob@gmail.com",
+  "password",
+  "March 22nd"
 )

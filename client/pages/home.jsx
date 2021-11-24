@@ -17,7 +17,7 @@ const styles = {
   }
 };
 
-export default class Home extends Component {
+export default class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,42 +31,27 @@ export default class Home extends Component {
   }
 
   getProducts() {
-    fetch('/api/products')
+    fetch('/api/products.php')
       .then(resp => resp.json())
       .then(resp => this.setState({ products: resp }));
   }
 
   render() {
     return (
-      <div className="container">
-      <h1>Catalog</h1>
-      <hr />
-      <div className="row">
-        {
-          this.state.products.map(product => (
-            <div key={product.productId} className="col-12 col-md-6 col-lg-4">
-              <Product product={product} />
-            </div>
-          ))
-        }
-      </div>
-    </div>
+        <div className="container">
+        <h2 id="logo">MegaPower PCs</h2>
+        <hr id="top-line"></hr>
+        <input type="search" className="searchbar" id="searchbar" name="search" placeholder="Search Products"></input>
+        <Link to= '/loginpage'>
+        <button className="sign-in">Sign In/Register</button>
+        </Link>
+        <Link to ='/cart'>
+        <img className="cart-icon" src ="https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=170667a&w=0&h=kEh5VLsTHukWc7xf2BvUs8ssqS_d7vkK0-xU3MDpO7s=" />
+          </Link>
+          <section className="row">
+            {this.state.products.map(product => <ProductListItem key={product.productId} productInfo={product} />)}
+          </section>
+          </div>
     );
   }
-}
-function Product(props) {
-  const { productId, name, price, imageUrl, shortDescription } = props.product;
-  return (
-    <a
-      href={`#products?productId=${productId}`}
-      style={styles.product}
-      className="text-dark card mb-4 shadow-sm text-decoration-none">
-      <img src={imageUrl} className="card-img-top" alt={name} style={styles.image}/>
-      <div className="card-body">
-        <h5 className="card-title">{ name }</h5>
-        <p className="card-text text-secondary">{ price }</p>
-        <p className="card-text"> { shortDescription }</p>
-      </div>
-    </a>
-  );
 }
