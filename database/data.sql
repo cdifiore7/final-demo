@@ -1,15 +1,17 @@
 insert into "products" (
+  "productId",
+  "supplierId",
   "name",
-  "price",
-  "imageUrl",
-  "description"
+  "description",
+  "price"
 )
 values (
+  '1',
+  'ABD',
   'ABD-i5 Gaming PC',
-  1999,
-  '/images/ABD-i5.png',
-  'an epic gamer pc'
-),
+  'A gaming powerhouse at an affordable price!'
+  699
+);
 insert into "users" (
   "userId",
   "email",
