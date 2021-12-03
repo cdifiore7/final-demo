@@ -20,7 +20,7 @@ CREATE TABLE "public"."products" (
     "supplierId" integer NOT NULL,
     "name" text NOT NULL,
     "description" TEXT NOT NULL,
-    "price" integer NOT NULL,
+    "price" text NOT NULL,
     "imageUrl" text NOT NULL,
     CONSTRAINT "products_pk" PRIMARY KEY ("productId")
 ) WITH (
@@ -51,7 +51,6 @@ CREATE TABLE "orderitems" (
 CREATE TABLE "suppliers" (
     "supplierId" serial NOT NULL,
     "name" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
     CONSTRAINT "suppliers_pk" PRIMARY KEY ("supplierId")
 ) WITH (
   OIDS=FALSE

@@ -23,10 +23,11 @@ const db = new pg.Pool({
 app.get('/api/products', (req, res, next) => {
   const sql = `
     select "productId",
-           "name",
-           "price",
-           "imageUrl",
-           "shortDescription"
+    "supplierId",
+    "name",
+    "description",
+    "price",
+    "imageUrl"
       from "products"
   `;
   db.query(sql)
@@ -39,12 +40,7 @@ app.get('/api/products/:productId', (req, res, next) => {
     throw new ClientError(400, 'productId must be a positive integer');
   }
   const sql = `
-    select "productId",
-           "name",
-           "price",
-           "imageUrl",
-           "shortDescription",
-           "longDescription"
+    select *
       from "products"
      where "productId" = $1
   `;
@@ -83,9 +79,9 @@ app.post('/api/signup', (req, res, next) => {
 
 app.post('/api/login', (req, res, next) => {
   const sql = `
-  select "email", "password"
+  select "email", "hashedPassword"
   from "users"
-  where "email" = ($1) and "password" = ($2)`;
+  where "email" = ($1) and "hashedPassword" = ($2)`;
   const { email, password } = req.body;
   const params = [email, password];
   if (!email || !password) {

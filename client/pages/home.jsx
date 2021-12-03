@@ -5,14 +5,19 @@ import ProductListItem from '../components/productlistitem';
 const styles = {
   product: {
     display: 'block',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    top: '120px',
+    right: '-10px',
+    margin: '45px',
+    width: '300px'
   },
   image: {
-    height: '300px',
+    height: '100px',
+    with: '50px',
     objectFit: 'contain'
   },
   description: {
-    height: '4.5rem',
+    height: '3rem',
     overflow: 'hidden'
   }
 };
@@ -26,7 +31,7 @@ export default class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch('api/products')
+    fetch('/api/products')
       .then(res => res.json())
       .then(products => this.setState({ products }));
   }
@@ -43,6 +48,9 @@ export default class Home extends React.Component {
         <Link to ='/cart'>
         <img className="cart-icon" src ="https://media.istockphoto.com/vectors/shopping-cart-icon-isolated-on-white-background-vector-id1206806317?k=20&m=1206806317&s=170667a&w=0&h=kEh5VLsTHukWc7xf2BvUs8ssqS_d7vkK0-xU3MDpO7s=" />
           </Link>
+          <h3 className="top-seller">Top Sellers</h3>
+          <h3 id="top-rated">Top Rated Products</h3>
+          <h3 id="newest-arrivals">Newest Arrivals</h3>
           <div className="row">
           {
             this.state.products.map(product => (
@@ -52,6 +60,7 @@ export default class Home extends React.Component {
             ))}
           </div>
           </div>
+
     );
   }
 }

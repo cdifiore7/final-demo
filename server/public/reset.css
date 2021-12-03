@@ -4,9 +4,8 @@
 
 body {
   margin: 0;
-  background-color: darkgray;
+  background-color: lightgray;
   width: 1152px;
-  height: 700px;
 }
 
 #logo {

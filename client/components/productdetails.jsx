@@ -3,6 +3,13 @@ import React from 'react';
 import Quantity from './quantitytoggle';
 import { Link } from 'react-router-dom';
 import { Button, Modal, ModalHeader } from 'reactstrap';
+const styles = {
+  image: {
+    width: '100%',
+    height: '350px',
+    objectFit: 'contain'
+  }
+};
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -13,7 +20,7 @@ export default class ProductDetails extends React.Component {
   }
 
   componentDidMount() {
-    fetch(`api/products/${this.props.productInfo.productId}`)
+    fetch(`/api/products/${this.props.viewParams.productId}`)
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ product: resp });
