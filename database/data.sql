@@ -83,7 +83,7 @@ insert into "products" (
   5,
   5,
   'Asus 1080p 23.8 inch Full HD Gaming Monitor',
-  'Experience had gaming at its finest!',
+  'Experience HD gaming at its finest!',
   '$109.99',
   '/images/asus-23.8-1080p.jpg'
 ), (
