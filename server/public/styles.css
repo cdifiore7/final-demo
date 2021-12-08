@@ -194,7 +194,7 @@
 
 #top-rated {
   position: absolute;
-  top: 450px;
+  top: 460px;
   left: 50px;
 }
 
@@ -208,7 +208,7 @@
 
 #newest-arrivals {
   position: absolute;
-  top: 810px;
+  top: 830px;
   left: 50px;
 }
 
@@ -226,4 +226,33 @@
   width: 1023px;
   height: 476px;
   left: 65px;
+}
+
+.product-image {
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.product-card {
+  height: 270px;
+  width: 300px;
+  margin: 35px;
+  top: 130px;
+}
+
+.product-details-image {
+  object-fit: contain;
+  max-height: 400px;
+}
+
+#productdetailcard {
+  top: 120px;
+  width: 950px;
+  position: absolute;
+}
+
+#details-home-button {
+  right: 10px;
+  position: absolute;
+  top: -3px;
 }

@@ -2,25 +2,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ProductListItem from '../components/productlistitem';
-const styles = {
-  product: {
-    display: 'block',
-    cursor: 'pointer',
-    top: '120px',
-    right: '-10px',
-    margin: '45px',
-    width: '300px'
-  },
-  image: {
-    height: '100px',
-    with: '50px',
-    objectFit: 'contain'
-  },
-  description: {
-    height: '3rem',
-    overflow: 'hidden'
-  }
-};
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -51,33 +32,10 @@ export default class Home extends React.Component {
           <h3 className="top-seller">Top Sellers</h3>
           <h3 id="top-rated">Top Rated Products</h3>
           <h3 id="newest-arrivals">Newest Arrivals</h3>
-          <div className="row">
-          {
-            this.state.products.map(product => (
-              <div key={product.productId} className="col-12 col-md-6 col-lg-4">
-            <Product product={product} />
-            </div>
-            ))}
+          <section className="row">
+          {this.state.products.map(product => <ProductListItem key={product.productId} productInfo={product} setView={this.props.setView} />)}
+        </section>
           </div>
-          </div>
-
     );
   }
-}
-function Product(props) {
-  // eslint-disable-next-line no-unused-vars
-  const { productId, name, price, imageUrl, description } = props.product;
-  return (
-    <a
-      href={`#products?productId=${productId}`}
-      style={styles.product}
-      className="text-dark card mb-4 shadow-sm text-decoration-none">
-      <img src={imageUrl} className="card-img-top" alt={name} style={styles.image}/>
-      <div className="card-body">
-        <h5 className="card-title">{ name }</h5>
-        <p className="card-text text-secondary">{ price }</p>
-        <p className="card-text" style={styles.description}>{ description }</p>
-      </div>
-    </a>
-  );
 }
