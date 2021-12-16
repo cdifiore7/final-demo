@@ -57,8 +57,11 @@ CREATE TABLE "suppliers" (
 );
 CREATE TABLE "orders" (
     "orderId" serial NOT NULL,
+    "cartId" integer NOT NULL,
     "userId" integer NOT NULL,
+    "address" TEXT NOT NULL,
     "addressId" integer NOT NULL,
+    "creditCard" text NOT NULL,
     "status" TEXT NOT NULL,
     "createdAt" TIMESTAMP NOT NULL default now(),
     CONSTRAINT "orders_pk" PRIMARY KEY ("orderId")
@@ -76,6 +79,22 @@ CREATE TABLE "deals" (
 ) WITH (
   OIDS=FALSE
 );
+CREATE TABLE "public"."cartItems" (
+    "cartItemId" integer NOT NULL,
+    "cartId" integer NOT NULL,
+    "productId" integer NOT NULL,
+    "price" text NOT NULL,
+    "imageUrl" text NOT NULL,
+    "description" text NOT NULL,
+    CONSTRAINT "cartItems_pk" PRIMARY KEY ("cartItemId")
+) WITH (
+  OIDS=FALSE
+);
+CREATE TABLE "public"."carts" (
+    "cartId" integer NOT NULL,
+    "createdAt" timestamp(6) with time zone DEFAULT now() NOT NULL
+);
+
 ALTER TABLE "products" ADD CONSTRAINT "products_fk0" FOREIGN KEY ("supplierId") REFERENCES "suppliers"("supplierId");
 ALTER TABLE "addresses" ADD CONSTRAINT "addresses_fk0" FOREIGN KEY ("userId") REFERENCES "users"("userId");
 ALTER TABLE "orderitems" ADD CONSTRAINT "orderitems_fk0" FOREIGN KEY ("orderId") REFERENCES "orders"("orderId");

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
 import { Link } from 'react-router-dom';
+import App from '../app';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
