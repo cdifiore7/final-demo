@@ -11,3 +11,12 @@ body {
 #logo {
   color: black;
 }
+
+.cart-section {
+  right: 650px;
+  position: absolute;
+}
+
+.fas_fa-shopping-cart {
+  size: 100px;
+}
