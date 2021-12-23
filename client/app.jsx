@@ -9,9 +9,8 @@ import ProductDetails from './components/productdetails';
 import ProductListItem from './components/productlistitem';
 import CheckoutForm from './pages/checkout-form';
 import CartSummaryItem from './components/cart-item';
-import priceFormatter from './lib/price-formatter';
 import CartSummary from './components/cart-summary';
-import Header from './components/header';
+import Header from './pages/header';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,10 +22,9 @@ export default class App extends React.Component {
         params: {}
       }
     };
-    this.setView = this.setView.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
     this.addToCart = this.addToCart.bind(this);
-    this.getCartItems = this.getCartItems.bind(this);
+    this.setView = this.setView.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +32,7 @@ export default class App extends React.Component {
   }
 
   getCartItems() {
-    fetch('./api/cart')
+    fetch('/api/cart')
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ cart: resp });
@@ -94,22 +92,36 @@ export default class App extends React.Component {
 
   render() {
     return (
-    <div className="ui container">
-    <BrowserRouter>
-    <div>
-    <Header cartItemCount={this.state.cart.length} setView={this.setView}/>
-      <Route exact path ='/'>
-        {this.renderView()}
-      </Route>
-      <Route exact path='/signupPage'>
-        <SignupPage />
-      </Route>
-      <Route exact path='/loginpage'>
-        <LoginPage />
-      </Route>
-    </div>
-    </BrowserRouter>
-    </div>
+      <div className="ui container">
+      <BrowserRouter>
+      <div>
+        <Route exact path ='/'>
+        <Header cartItemCount={this.state.cart.length} setView={this.setView}/>
+        <div className='container'>
+          {this.renderView()}
+          </div>
+        </Route>
+        <Route exact path='/signupPage'>
+          <SignupPage />
+        </Route>
+        <Route exact path='/loginpage'>
+          <LoginPage />
+        </Route>
+        <Route exact path='/cart-item'>
+          <CartSummaryItem />
+        </Route>
+        <Route exact path='/cart-summary'>
+          <CartSummary />
+        </Route>
+        <Route exact path='/productdetails'>
+        <ProductDetails />
+        </Route>
+        <Route exact path="/productlistitem">
+        <ProductListItem />
+        </Route>
+      </div>
+      </BrowserRouter>
+      </div>
     );
   }
 }

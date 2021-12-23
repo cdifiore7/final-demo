@@ -13,10 +13,7 @@ body {
 }
 
 .cart-section {
-  right: 650px;
+  right: 670px;
+  top: 40px;
   position: absolute;
-}
-
-.fas_fa-shopping-cart {
-  size: 100px;
 }

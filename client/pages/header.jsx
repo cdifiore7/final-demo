@@ -11,9 +11,7 @@ export default function Header(props) {
         <button className="sign-in">Sign In/Register</button>
         </Link>
       <div className="cart-section">
-        <p className="pr-2">{props.cartItemCount}</p>
-        <p className="pr-2">{props.cartItemCount !== 1 ? 'items' : 'item'}</p>
-        <i className="fas fa-shopping-cart" onClick={() => props.setView('cart', {})}></i>
+      <i className="fas fa-shopping-cart" id="fa-cart" onClick={() => props.setView('cart', {})}></i>
       </div>
     </header>
   );

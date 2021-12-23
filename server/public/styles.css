@@ -238,6 +238,7 @@
   width: 300px;
   margin: 35px;
   top: 130px;
+  object-fit: contain;
 }
 
 .product-details-image {

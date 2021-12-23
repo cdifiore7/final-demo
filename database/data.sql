@@ -10,6 +10,14 @@ values (
   'password123',
   '2021-03-22 00:00:01'
 );
+insert into "carts" (
+  "cartId",
+  "createdAt"
+) values (
+  1,
+  '2021-12-1 00:00:01'
+);
+
 insert into "suppliers" (
   "supplierId",
   "name"
@@ -44,6 +52,8 @@ insert into "suppliers" (
   9,
   'Nvidia'
 );
+
+
 insert into "products" (
   "productId",
   "supplierId",
@@ -117,4 +127,16 @@ insert into "products" (
   'The highest end of graphics power you can find!',
   '$1000.99',
   '/images/rtx-2080-ti.jpg'
+);
+
+insert into "cartItems" (
+  "cartItemId",
+  "cartId",
+  "productId",
+  "price"
+) values (
+  1,
+  1,
+  1,
+  '$1000.99'
 );

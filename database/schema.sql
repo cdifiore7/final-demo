@@ -40,7 +40,7 @@ CREATE TABLE "addresses" (
 ) WITH (
   OIDS=FALSE
 );
-CREATE TABLE "orderitems" (
+CREATE TABLE "public"."orderitems" (
     "orderitemId" serial NOT NULL,
     "orderId" integer NOT NULL,
     "productId" integer NOT NULL,
@@ -57,6 +57,7 @@ CREATE TABLE "suppliers" (
 );
 CREATE TABLE "orders" (
     "orderId" serial NOT NULL,
+    "name" TEXT NOT NULL,
     "userId" integer NOT NULL,
     "addressId" integer NOT NULL,
     "status" TEXT NOT NULL,
@@ -80,7 +81,7 @@ CREATE TABLE "public"."cartItems" (
     "cartItemId" serial NOT NULL,
     "cartId" integer NOT NULL,
     "productId" integer NOT NULL,
-    "price" integer NOT NULL,
+    "price" TEXT NOT NULL,
     CONSTRAINT "cartItems_pk" PRIMARY KEY ("cartItemId")
 ) WITH (
   OIDS=FALSE
