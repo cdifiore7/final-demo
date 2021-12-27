@@ -8,9 +8,9 @@ import LoginPage from './pages/loginpage';
 import ProductDetails from './components/productdetails';
 import ProductListItem from './components/productlistitem';
 import CheckoutForm from './pages/checkout-form';
-import CartSummaryItem from './components/cart-item';
-import CartSummary from './components/cart-summary';
+import CartSummary from './pages/cart-summary';
 import Header from './pages/header';
+import CartSummaryItem from './pages/cart-item';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -27,29 +27,41 @@ export default class App extends React.Component {
     this.setView = this.setView.bind(this);
   }
 
+  setView(name, params) {
+    this.setState({
+      view: {
+        name: name,
+        params: params
+      }
+    });
+  }
+
   componentDidMount() {
     this.getCartItems();
   }
 
   getCartItems() {
     fetch('/api/cart')
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({ cart: resp });
-      });
+      .then(res => res.json(res))
+      .then(receivedItems => {
+        this.setState({ cart: receivedItems });
+      })
+      .catch(error => console.error(error));
   }
 
   addToCart(product) {
-    const options = {
-      method: 'POST'
-    };
-    fetch(`./api/cart/${product}`, options)
-      .then(resp => resp.json())
-      .then(resp => {
-        const cartArray = this.state.cart.slice();
-        cartArray.push(resp);
-        this.setState({ cart: cartArray });
-      });
+    fetch('/api/cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(product)
+    }).then(res => res.json())
+      .then(addedItem => {
+        const newItem = this.state.cart.slice();
+        newItem.push(addedItem);
+        this.setState({ cart: newItem });
+      }).catch(error => console.error(error));
   }
 
   placeOrder(order) {
@@ -60,7 +72,7 @@ export default class App extends React.Component {
         'Content-Type': 'application/json'
       }
     };
-    fetch('./api/orders', options)
+    fetch('/api/orders', options)
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ cart: [] });
@@ -69,18 +81,9 @@ export default class App extends React.Component {
 
   }
 
-  setView(name, params) {
-    this.setState({
-      view: {
-        name,
-        params
-      }
-    });
-  }
-
   renderView() {
     if (this.state.view.name === 'catalog') {
-      return <Home setView={this.setView}/>;
+      return <Home setView={this.setView} cartState={this.state.cart}/>;
     } else if (this.state.view.name === 'cart') {
       return <CartSummary setView={this.setView} cartState={this.state.cart}/>;
     } else if (this.state.view.name === 'checkout') {
@@ -95,29 +98,17 @@ export default class App extends React.Component {
       <div className="ui container">
       <BrowserRouter>
       <div>
-        <Route exact path ='/'>
         <Header cartItemCount={this.state.cart.length} setView={this.setView}/>
+        <Route exact path='/'>
         <div className='container'>
           {this.renderView()}
           </div>
-        </Route>
+          </Route>
         <Route exact path='/signupPage'>
           <SignupPage />
         </Route>
         <Route exact path='/loginpage'>
           <LoginPage />
-        </Route>
-        <Route exact path='/cart-item'>
-          <CartSummaryItem />
-        </Route>
-        <Route exact path='/cart-summary'>
-          <CartSummary />
-        </Route>
-        <Route exact path='/productdetails'>
-        <ProductDetails />
-        </Route>
-        <Route exact path="/productlistitem">
-        <ProductListItem />
         </Route>
       </div>
       </BrowserRouter>

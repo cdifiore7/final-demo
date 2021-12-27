@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import ProductListItem from '../components/productlistitem';
-import CartSummary from '../components/cart-summary';
+import CartSummary from '../pages/cart-summary';
 
 export default class Home extends React.Component {
   constructor(props) {

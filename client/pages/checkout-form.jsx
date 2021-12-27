@@ -10,7 +10,7 @@ export default class CheckoutForm extends React.Component {
     this.state = {
       name: '',
       creditCard: '',
-      addressId: ''
+      shippingAddress: ''
     };
   }
 
@@ -42,7 +42,7 @@ export default class CheckoutForm extends React.Component {
             </div>
             <div className="form-group">
               <label className="pb-2" htmlFor="">Shipping Address</label>
-              <textarea className="form-control" rows="5" name="addressId" value={this.state.addressId} onChange={e => this.handleChange(e)}/>
+              <textarea className="form-control" rows="5" name="shippingAddress" value={this.state.shippingAddress} onChange={e => this.handleChange(e)}/>
             </div>
             <div className="col-12 d-flex justify-content-between mt-4">
               <button onClick={() => this.props.setView('catalog', {})} className="btn">&#8592; Back to Home</button>

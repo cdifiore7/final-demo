@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-export default class Signup extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -39,7 +39,8 @@ export default class Signup extends React.Component {
     } else {
       const newAccount = {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        passwordConfirm: this.state.passwordConfirm
       };
       this.accountCreate(newAccount);
       this.setState({ email: '', password: '', passwordConfirm: '' });
@@ -95,3 +96,4 @@ export default class Signup extends React.Component {
     );
   }
 }
+export default withRouter(Signup);
