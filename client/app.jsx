@@ -27,41 +27,29 @@ export default class App extends React.Component {
     this.setView = this.setView.bind(this);
   }
 
-  setView(name, params) {
-    this.setState({
-      view: {
-        name: name,
-        params: params
-      }
-    });
-  }
-
   componentDidMount() {
     this.getCartItems();
   }
 
   getCartItems() {
-    fetch('/api/cart')
-      .then(res => res.json(res))
-      .then(receivedItems => {
-        this.setState({ cart: receivedItems });
-      })
-      .catch(error => console.error(error));
+    fetch('./api/cart')
+      .then(resp => resp.json())
+      .then(resp => {
+        this.setState({ cart: resp });
+      });
   }
 
   addToCart(product) {
-    fetch('/api/cart', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(product)
-    }).then(res => res.json())
-      .then(addedItem => {
-        const newItem = this.state.cart.slice();
-        newItem.push(addedItem);
-        this.setState({ cart: newItem });
-      }).catch(error => console.error(error));
+    const options = {
+      method: 'POST'
+    };
+    fetch(`./api/cart/${product}`, options)
+      .then(resp => resp.json())
+      .then(resp => {
+        const cartArray = this.state.cart.slice();
+        cartArray.push(resp);
+        this.setState({ cart: cartArray });
+      });
   }
 
   placeOrder(order) {
@@ -72,13 +60,22 @@ export default class App extends React.Component {
         'Content-Type': 'application/json'
       }
     };
-    fetch('/api/orders', options)
+    fetch('./api/orders', options)
       .then(resp => resp.json())
       .then(resp => {
         this.setState({ cart: [] });
         this.setView('catalog', {});
       });
 
+  }
+
+  setView(name, params) {
+    this.setState({
+      view: {
+        name,
+        params
+      }
+    });
   }
 
   renderView() {

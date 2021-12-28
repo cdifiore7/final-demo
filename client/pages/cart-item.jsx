@@ -9,7 +9,7 @@ function CartSummaryItem(props) {
         <div>
           <div>
             <h3 className="ml-2 mb-2 mt-5">{props.name}</h3>
-            <h5 className="m-2 mb-2 text-muted">${props.totalprice}</h5>
+            <h5 className="m-2 mb-2 text-muted">${props.price}</h5>
             <p className="ml-2 mb-5">{props.description}</p>
           </div>
         </div>

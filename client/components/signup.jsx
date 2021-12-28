@@ -39,8 +39,7 @@ class Signup extends React.Component {
     } else {
       const newAccount = {
         email: this.state.email,
-        password: this.state.password,
-        passwordConfirm: this.state.passwordConfirm
+        password: this.state.password
       };
       this.accountCreate(newAccount);
       this.setState({ email: '', password: '', passwordConfirm: '' });

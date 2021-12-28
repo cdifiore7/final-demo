@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import ProductListItem from '../components/productlistitem';
 import CartSummary from '../pages/cart-summary';
 
