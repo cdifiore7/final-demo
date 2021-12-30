@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React, { Component } from 'react';
 import ProductListItem from '../components/productlistitem';
-import CartSummary from '../pages/cart-summary';
 
 export default class Home extends React.Component {
   constructor(props) {

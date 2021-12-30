@@ -8,23 +8,23 @@ import LoginPage from './pages/loginpage';
 import ProductDetails from './components/productdetails';
 import ProductListItem from './components/productlistitem';
 import CheckoutForm from './pages/checkout-form';
-import CartSummary from './pages/cart-summary';
+import CartSummary from './components/cart-summary';
 import Header from './pages/header';
-import CartSummaryItem from './pages/cart-item';
+import CartSummaryItem from './components/cart-item';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      cart: [],
       view: {
         name: 'catalog',
         params: {}
-      }
+      },
+      cart: []
     };
-    this.placeOrder = this.placeOrder.bind(this);
-    this.addToCart = this.addToCart.bind(this);
     this.setView = this.setView.bind(this);
+    this.addToCart = this.addToCart.bind(this);
+    this.placeOrder = this.placeOrder.bind(this);
   }
 
   componentDidMount() {
@@ -32,59 +32,65 @@ export default class App extends React.Component {
   }
 
   getCartItems() {
-    fetch('./api/cart')
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({ cart: resp });
-      });
+    fetch('/api/cart')
+      .then(res => res.json(res))
+      .then(receivedItems => {
+        this.setState({ cart: receivedItems });
+      })
+      .catch(error => console.error(error));
   }
 
   addToCart(product) {
-    const options = {
-      method: 'POST'
-    };
-    fetch(`./api/cart/${product}`, options)
-      .then(resp => resp.json())
-      .then(resp => {
-        const cartArray = this.state.cart.slice();
-        cartArray.push(resp);
-        this.setState({ cart: cartArray });
-      });
-  }
-
-  placeOrder(order) {
-    const options = {
+    fetch('/api/cart', {
       method: 'POST',
-      body: JSON.stringify(order),
       headers: {
         'Content-Type': 'application/json'
-      }
-    };
-    fetch('./api/orders', options)
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({ cart: [] });
-        this.setView('catalog', {});
-      });
+      },
+      body: JSON.stringify(product)
+    }).then(res => res.json())
+      .then(addedItem => {
+        const newItem = this.state.cart.slice();
+        newItem.push(addedItem);
+        this.setState({ cart: newItem });
+      }).catch(error => console.error(error));
+  }
 
+  placeOrder(formData) {
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    }).then(result => {
+      this.setState({
+        view: { name: 'catalog', params: {} },
+        cart: []
+      });
+    }).catch(error => console.error(error));
   }
 
   setView(name, params) {
     this.setState({
       view: {
-        name,
-        params
+        name: name,
+        params: params
       }
     });
   }
 
   renderView() {
     if (this.state.view.name === 'catalog') {
-      return <Home setView={this.setView} cartState={this.state.cart}/>;
+      return <Home setView={this.setView}/>;
     } else if (this.state.view.name === 'cart') {
-      return <CartSummary setView={this.setView} cartState={this.state.cart}/>;
+      return (
+        <div>
+      <Header items={this.state.cart.length} />
+      <CartSummary setView={this.setView} cartItem={this.state.cart} summaryPrice={this.state.cart}/>;
+      </div>
+      );
     } else if (this.state.view.name === 'checkout') {
-      return <CheckoutForm placeOrder={this.placeOrder} cartState={this.state.cart}/>;
+      return <CheckoutForm setView={this.setView} placeOrder={this.placeOrder} cartItem={this.state.cart} totalPrice={this.state.cart}/>;
     } else {
       return <ProductDetails productInfo={this.state.view.params} setView={this.setView} addToCart={this.addToCart}/>;
     }

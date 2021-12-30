@@ -9,18 +9,21 @@ const ClientError = require('./client-error');
 const argon2 = require('argon2');
 const jwt = require('jsonwebtoken');
 const authorizationMiddleware = require('./authorization-middleware');
+const sessionMiddleware = require('./session-middleware');
 const app = express();
-app.use(staticMiddleware);
-
 const jsonMiddleware = express.json();
-app.use(jsonMiddleware);
-
 const db = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false
   }
 });
+
+app.use(jsonMiddleware);
+app.use(staticMiddleware);
+app.use(sessionMiddleware);
+app.use(express.json());
+
 app.get('/api/products', (req, res, next) => {
   const sql = `
     select "productId",
@@ -61,6 +64,30 @@ app.get('/api/products/:productId', (req, res, next) => {
     .catch(err => next(err));
 });
 
+app.get('/api/cart', (req, res, next) => {
+  if (!req.session.cartId === true) {
+    res.json([]);
+  }
+  const checkCartId = `
+SELECT "c"."cartItemId",
+       "c"."price",
+       "p"."productId",
+       "p"."imageUrl",
+       "p"."name",
+       "p"."description"
+  FROM "cartItems" as "c"
+  JOIN "products" as "p" USING ("productId")
+ WHERE "c"."cartId" = $1
+  `;
+  const value = [req.session.cartId];
+  db.query(checkCartId, value)
+    .then(result => {
+      const data = result.rows;
+      res.json(data);
+    })
+    .catch(err => next(err));
+});
+
 app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
@@ -72,7 +99,7 @@ app.post('/api/signup', (req, res, next) => {
         const sql = `
     insert into "users" ("email", "hashedPassword")
     values ($1, $2)
-    reuturning "userId", "email", "createdAt"
+    reuturning "userId", "email"
     `;
         const params = [email, password];
         db.query(sql, params)
@@ -113,133 +140,96 @@ app.post('/api/login', (req, res, next) => {
     });
 });
 
-app.get('/api/cart', (req, res, next) => {
-  if (!req.session.cartId) {
-    return res.status(200).json([]);
+app.post('/api/cart', (req, res, next) => {
+  const { productId } = req.body;
+  if (!Number(productId)) {
+    return next(new ClientError(`${productId} is not a valid Product ID`, 400));
   }
-  const cartId = req.session.cartId;
-  const sql = `
-  select "c"."cartItemId",
+  const checkPrice = `
+  SELECT "price"
+  FROM   "products"
+  WHERE  "productId" = $1
+`;
+  const value = [productId];
+  db.query(checkPrice, value)
+    .then(result => {
+      if (!result.rows[0]) {
+        throw new ClientError(`productId ${productId} does not exist`, 400);
+      } else if ('cartId' in req.session) {
+
+        return {
+          price: result.rows[0].price,
+          cartId: req.session.cartId
+        };
+      }
+      const addCartId = `
+          INSERT INTO "carts" ("cartId", "createdAt")
+          VALUES (default, default)
+          RETURNING "cartId"
+        `;
+      return db.query(addCartId).then(cartId => ({
+        price: result.rows[0].price,
+        cartId: cartId.rows[0].cartId
+      }));
+    })
+    .then(data => {
+      req.session.cartId = data.cartId;
+      const price = data.price;
+      const addItemToCart = `
+        INSERT INTO "cartItems" ("cartId", "productId", "price")
+        VALUES ($1, $2, $3)
+        RETURNING "cartItemId"
+      `;
+      const values = [data.cartId, productId, price];
+      return db.query(addItemToCart, values).then(cartItemId => cartItemId.rows[0]);
+    })
+    .then(cartItemId => {
+
+      const selectAllCartItems = `
+  SELECT "c"."cartItemId",
       "c"."price",
-      "c"."supplierId",
-      "c"."productId",
+      "p"."productId",
       "p"."imageUrl",
       "p"."name",
       "p"."description"
-    from "cartItems" as "c"
-    join "products" as "p" using ("productId")
-    where "c"."cartId" = $1`;
-  const values = [cartId];
-  db.query(sql, values)
-    .then(result => {
-      return res.status(200).json(result.rows);
-    })
-    .catch(err => next(err));
-});
-
-app.post('/api/cart/:productId', (req, res, next) => {
-  const { cartId } = req.session;
-  const productId = parseInt(req.params.productId);
-  if (!Number.isInteger(productId) || productId <= 0) {
-    res.status(400).json('Product id must be a positive integer');
-  }
-  const sql = `
-    SELECT "price"
-    FROM "products"
-    WHERE "productId" = $1
-    `;
-  const values = [productId];
-  db.query(sql, values)
-    .then(priceResult => {
-      if (!priceResult.rows.length) {
-        throw new ClientError('The requested information does not exist.', 400);
-      }
-      if (cartId) {
-        const [{ price }] = priceResult.rows;
-        return {
-          cartId: cartId,
-          price: price
-        };
-      }
-      const sql = `
-      INSERT INTO "carts" ("cartId", "createdAt")
-      values (default, default)
-      returning "cartId"
+   FROM "cartItems" AS "c"
+   JOIN "products" AS "p" using ("productId")
+  WHERE "c"."cartItemId" = $1
       `;
-      return db.query(sql)
-        .then(insertResult => {
-          const [{ cartId }] = insertResult.rows;
-          const [{ price }] = priceResult.rows;
-          return {
-            cartId: cartId,
-            price: price
-          };
-        });
-    })
-    .then(result => {
-      req.session.cartId = result.cartId;
-      const sql = `
-    INSERT INTO "cartItems" ("cartId", "productId", "price")
-    VALUES ($1, $2, $3)
-    returning "cartItemId"
-    `;
-      const values = [result.cartId, productId, result.price];
-      return db.query(sql, values);
-    })
-    .then(insertCartResult => {
-      const [{ cartItemId }] = insertCartResult.rows;
-      const sql = `
-    SELECT "c"."cartItemId",
-           "c"."price",
-           "p"."productId",
-           "p"."supplierId",
-           "p"."imageUrl",
-           "p"."name",
-           "p"."description"
-    FROM "cartItems" as "c"
-    JOIN "products" as "p" using ("productId")
-    WHERE "c"."cartItemId" = $1
-    `;
-      const values = [cartItemId];
-      return db.query(sql, values)
-        .then(result => {
-          const cartItem = result.rows[0];
-          return res.status(201).json(cartItemId);
+      const value = [cartItemId.cartItemId];
+      return db.query(selectAllCartItems, value)
+        .then(data => {
+          res.status(201).json(data.rows);
         });
     })
     .catch(err => next(err));
 });
+
 app.post('/api/orders', (req, res, next) => {
-  const cartId = req.session.cartId;
-  if (!cartId) {
-    return res.status(400).json({ error: 'no cart id found.' });
+  if (!req.session.cartId) {
+    throw new ClientError('CartId does not exist', 400);
   }
-  const { name, creditCard, shippingAddress } = req.body;
-  const errors = {};
-  if (!name) {
-    errors.name = 'missing or invalid name.';
-  }
-  if (!creditCard) {
-    errors.creditCard = 'missing or invalid credit card number.';
-  }
-  if (!addressId) {
-    errors.shippingAddress = 'missing or invalid shipping address.';
-  }
-  if (Object.keys(errors).length) {
-    return res.status(400).json(errors);
+
+  const data = req.body;
+
+  if (
+    typeof data.name === 'undefined' || typeof data.creditCard === 'undefined' ||
+    typeof data.shippingAddress === 'undefined'
+  ) {
+    throw new ClientError('Missing required value', 400);
   }
 
   const sql = `
-  INSERT INTO "orders" ("name", "creditCard", "shippingAddress", "cartId")
-  VALUES ($1, $2, $3, $4)
-  RETURNING "orderId", "createdAt", "name", "creditCard", "shippingAddress"
+    insert into "orders" ("cartId", "name", "creditCard", "shippingAddress")
+    values ($1, $2, $3, $4)
+    returning "orderId", "createdAt", "name", "creditCard", "shippingAddress";
   `;
-  const values = [name, creditCard, shippingAddress, cartId];
+  const params = [req.session.cartId, data.name, data.creditCard, data.shippingAddress];
 
-  db.query(sql, values)
+  db.query(sql, params)
     .then(result => {
       delete req.session.cartId;
-      res.status(201).json(result.rows[0]);
+      return res.status(201).json(result.rows[0]);
     })
     .catch(err => next(err));
 });

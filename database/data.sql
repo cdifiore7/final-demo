@@ -1,7 +1,7 @@
 insert into "users" ("userId", "email", "hashedPassword", "createdAt")
 values (1, 'bob@gmail.com', 'password123', '2021-03-22 00:00:01');
 
-insert into "cart" ("cartId", "createdAt")
+insert into "carts" ("cartId", "createdAt")
 values (101, '2021-03-22 00:00:01'),
 (201,	'2021-03-22 00:00:02'),
 (301,	'2021-03-22 00:00:03'),
@@ -27,13 +27,16 @@ values (1, 1, 'ABD-i5 Gaming PC Desktop', 'A gaming powerhouse at an affordable 
 (8, 8, 'Nvidia RTX 2060 Superclocked GPU', 'The newest and greatest in graphical horsepower!', 699.99, '/images/rtx-2060.jpg'),
 (9, 9, 'Nvidia RTX 2080ti Superclocked GPU', 'The highest end of graphics power you can find!', 1000.99, '/images/rtx-2080-ti.jpg');
 
-insert into "cartItems" ("supplierId", "cartItemId", "cartId", "productId", "price")
-values (1, 1,	101, 1, 699.99),
-(2, 2, 201,	2, 899.99),
-(3, 3, 301,	3, 129.99),
-(4, 4, 401,	4, 219.99),
-(5, 5, 501,	5, 109.99),
-(6, 6, 601,	6, 129.99),
-(7, 7, 701,	7, 39.99),
-(8, 8, 801,	8, 699.99),
-(9, 9, 901, 9, 1000.99);
+insert into "cartItems" ("cartItemId", "cartId", "productId",  "price")
+values (1, 101,	1, 699.99),
+(2, 201, 2, 899.99),
+(3, 301, 3, 129.99),
+(4, 401, 4, 219.99),
+(5, 501, 5, 109.99),
+(6, 601, 6, 129.99),
+(7, 701, 7, 39.99),
+(8, 801, 8, 699.99),
+(9, 901, 9, 1000.99);
+
+insert into "addresses" ("shippingAddress", "userId", "city", "state", "zipcode", "firstName", "lastName")
+values ('111 Main Steet', 1, 'Irvine', 'CA', '10101', 'Bob', 'John' );
