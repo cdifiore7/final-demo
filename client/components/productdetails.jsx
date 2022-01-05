@@ -26,18 +26,17 @@ export default class ProductDetails extends React.Component {
       const { name, imageUrl, price, description, productId } = this.state.product;
       return (
         <div className="container">
-        <h2 id="logo">MegaPower PCs</h2>
+        <Link to= "/">
+        <h2 id="logo" onClick={() => this.props.setView('catalog', {})}>MegaPower PCs</h2>
+        </Link>
         <hr id="top-line"></hr>
         <input type="search" className="searchbar" id="searchbar" name="search" placeholder="Search Products"></input>
         <Link to= '/loginpage'>
-        <button className="sign-in">Sign In/Register</button>
+        <button className="sign-in-button">Sign In/Register</button>
         </Link>
         <div className="container" id='productdetailcard'>
         <section className="row">
         <div className="card shadow-sm">
-          <div id="details-home-button">
-            <button onClick={() => this.props.setView('catalog', {})}className="btn">&#8592; Back to Home</button>
-          </div>
           <div className="row col-12 mt-2 mb-2">
             <div className="col-4">
               <img className="product-details-image card-img-top" src={imageUrl} alt=""/>

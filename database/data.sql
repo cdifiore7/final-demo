@@ -1,5 +1,5 @@
 insert into "users" ("userId", "email", "hashedPassword", "createdAt")
-values (1, 'bob@gmail.com', 'password123', '2021-03-22 00:00:01');
+values (default, 'bob@gmail.com', '$argon2i$v=19$m=4096,t=3,p=1$X/yhxhemvA73Sg/6sVld5g$PPlRjJZLVL9xxA4z0/1HNOg3wsecw/FqDVeHyltSPFw', '2021-03-22 00:00:01');
 
 insert into "carts" ("cartId", "createdAt")
 values (101, '2021-03-22 00:00:01'),

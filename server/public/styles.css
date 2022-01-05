@@ -1,20 +1,5 @@
-#logo {
-  color: black;
-  position: absolute;
-  width: 159px;
-  height: 51px;
-  left: 21px;
-  top: 12px;
-  font-size: 22px;
-  line-height: 30px;
-}
 
-#top-line {
-  position: absolute;
-  width: 1152px;
-  top: 60.93px;
-  border: 1px solid #000;
-}
+/* login page */
 
 #signin {
   position: absolute;
@@ -63,6 +48,7 @@
   top: 356px;
 }
 
+/* sign up page */
 #sign-up {
   width: 500px;
   height: 46px;
@@ -179,19 +165,8 @@
   left: 280px;
 }
 
-.searchbar {
-  position: absolute;
-  right: 750px;
-  width: 550px;
-  top: 40px;
-}
 
-.sign-in {
-  right: 490px;
-  position: absolute;
-  top: 10px;
-}
-
+/* home page */
 #top-rated {
   position: absolute;
   top: 460px;
@@ -212,14 +187,8 @@
   left: 50px;
 }
 
-.cart-icon {
-  width: 45px;
-  position: absolute;
-  left: 800px;
-  top: 27px;
-}
-
-#cartbox {
+/* product details */
+.image-box {
   top: 100px;
   position: absolute;
   background-color: white;

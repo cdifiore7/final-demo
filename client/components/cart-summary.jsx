@@ -8,24 +8,22 @@ function CartSummary(props) {
   }
   return (
     <>
-      <div className="image-box pb-2 d-flex flex-column">
-        <p className="pointer col-11 container mt-5 text-white" onClick={() => props.setView('catalog', {})}>
-          <i className="fas fa-arrow-circle-left mr-1"></i>Back To Catalog</p>
-        <h2 className="col-11 ml-5 text-white">My Cart</h2>
+      <div className="image-box">
+        <h3 className="col-11 ml-5" id="my-cart">My Cart</h3>
         {props.cartItem.map(item => {
           return (
             <CartSummaryItem
             key={item.productId}
             image={item.imageUrl}
             name={item.name}
-            price={item.price}
+            price={item.price / 100}
             description={item.description}
             />
           );
         })}
         <div className="col-11 d-flex justify-content-between mt-2 mb-2 mr-5">
-          <h3 className="text-white ml-4">Item Total ${newSummary / 100}</h3>
-          <button className="btn btn-primary" onClick={() => props.setView('checkout', {})}>Checkout</button>
+          <h4 className="ml-4" id="item-total">Item Total ${newSummary / 100}</h4>
+          <button id="checkout-button" className="btn btn-primary" onClick={() => props.setView('checkout', {})}>Proceed to Checkout</button>
         </div>
       </div>
     </>

@@ -1,3 +1,4 @@
+/* general use */
 * {
   box-sizing: border-box;
 }
@@ -10,10 +11,67 @@ body {
 
 #logo {
   color: black;
+  position: absolute;
+  width: 159px;
+  height: 51px;
+  left: 21px;
+  top: 12px;
+  font-size: 22px;
+  line-height: 30px;
 }
 
-.cart-section {
-  right: 670px;
-  top: 40px;
+#top-line {
   position: absolute;
+  width: 1152px;
+  top: 60.93px;
+  border: 1px solid #000;
+}
+
+#cart-icon {
+  width: 45px;
+  position: absolute;
+  left: 700px;
+  top: 27px;
+  height: 45px;
+}
+
+.searchbar {
+  position: absolute;
+  right: 860px;
+  width: 400px;
+  top: 40px;
+}
+
+.sign-in-button {
+  right: 490px;
+  position: absolute;
+  top: 10px;
+}
+
+
+
+/* cart-summary */
+.cart-section {
+  right: 680px;
+  top: 45px;
+  position: absolute;
+}
+
+#my-cart {
+  position: absolute;
+  top: 10px;
+  left: 50px;
+}
+
+#item-total {
+  position: absolute;
+  top: 400px;
+  left: 50px;
+}
+
+#checkout-button {
+  position: absolute;
+  top: 400px;
+  left: 800px;
+  width: 180px;
 }
