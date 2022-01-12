@@ -40,41 +40,38 @@ export default class App extends React.Component {
   }
 
   addToCart(product) {
-    fetch('/api/cart/', {
+    const options = {
+      method: 'POST'
+    };
+    fetch(`./api/cart/${product}`, options)
+      .then(resp => resp.json())
+      .then(resp => {
+        const cartArray = this.state.cart.slice();
+        cartArray.push(resp);
+        this.setState({ cart: cartArray });
+      });
+  }
+
+  placeOrder(formData) {
+    fetch('/api/orders', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(product)
-    }).then(res => res.json())
-      .then(addedItem => {
-        const newItem = this.state.cart.slice();
-        newItem.push(addedItem);
-        this.setState({ cart: newItem });
-      }).catch(error => console.error(error));
-  }
-
-  placeOrder(order) {
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(order),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    fetch('./api/orders', options)
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({ cart: [] });
-        this.setView('catalog', {});
+      body: JSON.stringify(formData)
+    }).then(result => {
+      this.setState({
+        view: { name: 'catalog', params: {} },
+        cart: []
       });
+    }).catch(error => console.error(error));
   }
 
   setView(name, params) {
     this.setState({
       view: {
         name,
-        params
+        params: params
       }
     });
   }
@@ -83,7 +80,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       return <Home setView={this.setView}/>;
     } else if (this.state.view.name === 'cart') {
-      return <CartSummary setView={this.setView} cartState={this.state.cart}/>;
+      return <CartSummary setView={this.setView} cartState={this.state.cart} items={this.state.cart.length} />;
     } else if (this.state.view.name === 'checkout') {
       return <CheckoutForm placeOrder={this.placeOrder} cartState={this.state.cart}/>;
     } else {

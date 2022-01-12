@@ -7,7 +7,7 @@ export default function CartSummary(props) {
   const totalPrice = props.cartState.reduce((accumulator, currentValue) => accumulator += currentValue.price, 0);
   return (
       <div className="image-box">
-        <h3 className="col-11 ml-5" id="my-cart">My Cart</h3>
+        <h3 className="col-12 mt-3 mb-4" id="my-cart">My Cart</h3>
         <div className="row">
         {props.cartState.map(item => <CartSummaryItem key={item.productId} cartData={item}/>)}
       </div>

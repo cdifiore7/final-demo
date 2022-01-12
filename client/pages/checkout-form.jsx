@@ -29,7 +29,6 @@ export default class CheckoutForm extends React.Component {
     const totalPrice = this.props.cartState.reduce((accumulator, currentValue) => accumulator += currentValue.price, 0);
     return (
       <div className="row">
-        <h1 className="col-12 mt-3 mb-4">My Cart</h1>
         <h3 className="col-12 mt-3 mb-5 text-muted">Order Total <span>{priceFormatter(totalPrice)}</span></h3>
         <div className="col-12 ">
           <form onSubmit={e => this.handleSubmit(e)}>
