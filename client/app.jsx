@@ -16,11 +16,11 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      cart: [],
       view: {
         name: 'catalog',
         params: {}
-      },
-      cart: []
+      }
     };
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
@@ -32,16 +32,15 @@ export default class App extends React.Component {
   }
 
   getCartItems() {
-    fetch('/api/cart')
-      .then(res => res.json(res))
-      .then(receivedItems => {
-        this.setState({ cart: receivedItems });
-      })
-      .catch(error => console.error(error));
+    fetch('./api/cart')
+      .then(resp => resp.json())
+      .then(resp => {
+        this.setState({ cart: resp });
+      });
   }
 
   addToCart(product) {
-    fetch('/api/cart', {
+    fetch('/api/cart/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -55,26 +54,27 @@ export default class App extends React.Component {
       }).catch(error => console.error(error));
   }
 
-  placeOrder(formData) {
-    fetch('/api/orders', {
+  placeOrder(order) {
+    const options = {
       method: 'POST',
+      body: JSON.stringify(order),
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    }).then(result => {
-      this.setState({
-        view: { name: 'catalog', params: {} },
-        cart: []
+      }
+    };
+    fetch('./api/orders', options)
+      .then(resp => resp.json())
+      .then(resp => {
+        this.setState({ cart: [] });
+        this.setView('catalog', {});
       });
-    }).catch(error => console.error(error));
   }
 
   setView(name, params) {
     this.setState({
       view: {
-        name: name,
-        params: params
+        name,
+        params
       }
     });
   }
@@ -83,15 +83,9 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       return <Home setView={this.setView}/>;
     } else if (this.state.view.name === 'cart') {
-      return (
-      <div>
-      <CartSummary setView={this.setView} cartItem={this.state.cart} summaryPrice={this.state.cart}/>;
-      </div>
-      );
+      return <CartSummary setView={this.setView} cartState={this.state.cart}/>;
     } else if (this.state.view.name === 'checkout') {
-      return (
-        <div> <CheckoutForm setView={this.setView} placeOrder={this.placeOrder} cartItem={this.state.cart} totalPrice={this.state.cart}/>;
-        </div>);
+      return <CheckoutForm placeOrder={this.placeOrder} cartState={this.state.cart}/>;
     } else {
       return <ProductDetails productInfo={this.state.view.params} setView={this.setView} addToCart={this.addToCart}/>;
     }

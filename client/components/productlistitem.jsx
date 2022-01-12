@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import priceFormatter from '../lib/price-formatter';
 
 export default function ProductListItem(props) {
   const { productId, name, price, imageUrl, description } = props.productInfo;
@@ -9,7 +10,7 @@ export default function ProductListItem(props) {
         <img src={imageUrl} className="card-img-top product-image" alt="A product image"/>
         <div className="card-body">
           <h5 className="card-title">{name}</h5>
-          <p className="card-text">{price}</p>
+          <p className="card-text">{priceFormatter(price)}</p>
           <p className="card-text">{description}</p>
         </div>
       </div>

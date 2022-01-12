@@ -12,6 +12,8 @@ export default class CheckoutForm extends React.Component {
       creditCard: '',
       shippingAddress: ''
     };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(e) {
@@ -25,7 +27,6 @@ export default class CheckoutForm extends React.Component {
 
   render() {
     const totalPrice = this.props.cartState.reduce((accumulator, currentValue) => accumulator += currentValue.price, 0);
-
     return (
       <div className="row">
         <h1 className="col-12 mt-3 mb-4">My Cart</h1>
@@ -45,7 +46,6 @@ export default class CheckoutForm extends React.Component {
               <textarea className="form-control" rows="5" name="shippingAddress" value={this.state.shippingAddress} onChange={e => this.handleChange(e)}/>
             </div>
             <div className="col-12 d-flex justify-content-between mt-4">
-              <button onClick={() => this.props.setView('catalog', {})} className="btn">&#8592; Back to Home</button>
               <button className="btn btn-primary" type="submit">Place Order</button>
             </div>
           </form>

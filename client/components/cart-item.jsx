@@ -1,20 +1,16 @@
 import React from 'react';
+import priceFormatter from '../lib/price-formatter';
 
-function CartSummaryItem(props) {
+export default function CartSummaryItem(props) {
+  const { imageUrl, name, price, description } = props.cartData;
   return (
-    <div className="ml-3 mt-2 contain">
-      <div className="row d-flex shadow margin mr-4 item-color">
-        <img className="col-lg-5 pt-3 pb-3" src={props.imageUrl}></img>
-        <div>
-          <div>
-            <h3 className="ml-2 mb-2 mt-5">{props.name}</h3>
-            <h5 className="m-2 mb-2 text-muted">${props.price}</h5>
-            <p className="ml-2 mb-5">{props.description}</p>
-          </div>
-        </div>
-      </div>
-    </div >
+  <div className="col-12 card flex-row shadow-sm align-items-center mb-4">
+  <img className="col-4 product-details-image p-3" src={imageUrl} alt=""/>
+  <div className="col-8 card-body">
+    <h3 className="card-title">{name}</h3>
+    <p className="card-text">{priceFormatter(price)}</p>
+    <p className="card-text">{description}</p>
+  </div>
+</div>
   );
 }
-
-export default CartSummaryItem;

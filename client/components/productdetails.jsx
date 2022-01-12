@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import App from '../app';
+import priceFormatter from '../lib/price-formatter';
 
 export default class ProductDetails extends React.Component {
   constructor(props) {
@@ -43,7 +44,7 @@ export default class ProductDetails extends React.Component {
             </div>
             <div className="col-8 card-body">
               <h3 className="card-title">{name}</h3>
-              <p className="card-text text-muted">{price}</p>
+              <p className="card-text text-muted">{priceFormatter(price)}</p>
               <p className="card-text">{description}</p>
               <button className="btn btn-primary" onClick={() => this.props.addToCart(productId)}>Add To Cart</button>
             </div>
