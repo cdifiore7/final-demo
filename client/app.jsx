@@ -52,19 +52,21 @@ export default class App extends React.Component {
       });
   }
 
-  placeOrder(formData) {
-    fetch('/api/orders', {
+  placeOrder(order) {
+    const options = {
       method: 'POST',
+      body: JSON.stringify(order),
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    }).then(result => {
-      this.setState({
-        view: { name: 'catalog', params: {} },
-        cart: []
+      }
+    };
+    fetch('./api/orders', options)
+      .then(resp => resp.json())
+      .then(resp => {
+        this.setState({ cart: [] });
+        this.setView('catalog', {});
       });
-    }).catch(error => console.error(error));
+
   }
 
   setView(name, params) {

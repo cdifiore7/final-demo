@@ -51,6 +51,13 @@ body {
 
 
 /* cart-summary */
+#cart-container {
+  position: absolute;
+  width: 1000px;
+  background-color: white;
+  top: 105px;
+}
+
 .cart-section {
   right: 680px;
   top: 45px;
@@ -58,19 +65,16 @@ body {
 }
 
 #my-cart {
-  position: absolute;
-  top: 10px;
+  top: 0;
   left: 50px;
 }
 
 #item-total {
-  position: absolute;
   top: 400px;
   left: 50px;
 }
 
 #checkout-button {
-  position: absolute;
   top: 400px;
   left: 800px;
   width: 180px;
