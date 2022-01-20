@@ -1,27 +1,12 @@
-#logo {
-  color: black;
-  position: absolute;
-  width: 159px;
-  height: 51px;
-  left: 21px;
-  top: 12px;
-  font-size: 22px;
-  line-height: 30px;
-}
 
-#top-line {
-  position: absolute;
-  width: 1152px;
-  top: 60.93px;
-  border: 1px solid #000;
-}
+/* login page */
 
 #signin {
   position: absolute;
   width: 117px;
   height: 121px;
-  left: 518px;
-  top: 156px;
+  left: 305px;
+  top: 35px;
   font-size: 24px;
   font-weight: 400;
 }
@@ -30,8 +15,8 @@
   position: absolute;
   width: 136px;
   height: 35px;
-  left: 430px;
-  top: 221px;
+  left: 215px;
+  top: 101px;
   font-size: 16px;
   font-weight: 400;
 }
@@ -40,8 +25,8 @@
   position: absolute;
   width: 128px;
   height: 45px;
-  top: 328px;
-  left: 430px;
+  top: 195px;
+  left: 215px;
   font-weight: 400;
   font-size: 16px;
 }
@@ -52,22 +37,22 @@
   position: absolute;
   width: 257px;
   height: 40px;
-  left: 430px;
+  left: 215px;
 }
 
 #textbox1 {
-  top: 250px;
+  top: 145px;
 }
 
 #textbox2 {
-  top: 356px;
+  top: 246px;
 }
 
 #sign-up {
   width: 500px;
   height: 46px;
-  top: 421px;
-  left: 418px;
+  top: 321px;
+  left: 205px;
   position: absolute;
   font-size: 21px;
 }
@@ -76,12 +61,15 @@
   position: absolute;
   width: 148px;
   height: 70px;
-  left: 492px;
-  top: 483px;
+  left: 272px;
+  top: 383px;
   background-color: #c1c1c1;
   font-size: 24px;
   font-weight: 400;
 }
+
+
+/* sign up page */
 
 #signinregister {
   align-items: right;
@@ -106,7 +94,7 @@
   width: 783px;
   height: 537px;
   top: 91px;
-  left: 186px;
+  left: 86px;
   position: absolute;
 }
 
@@ -179,19 +167,8 @@
   left: 280px;
 }
 
-.searchbar {
-  position: absolute;
-  right: 750px;
-  width: 550px;
-  top: 40px;
-}
 
-.sign-in {
-  right: 490px;
-  position: absolute;
-  top: 10px;
-}
-
+/* home page */
 #top-rated {
   position: absolute;
   top: 460px;
@@ -212,21 +189,7 @@
   left: 50px;
 }
 
-.cart-icon {
-  width: 45px;
-  position: absolute;
-  left: 800px;
-  top: 27px;
-}
-
-#cartbox {
-  top: 100px;
-  position: absolute;
-  background-color: white;
-  width: 1023px;
-  height: 476px;
-  left: 65px;
-}
+/* product details */
 
 .product-image {
   max-height: 100px;
@@ -238,6 +201,7 @@
   width: 300px;
   margin: 35px;
   top: 130px;
+  object-fit: contain;
 }
 
 .product-details-image {
@@ -248,11 +212,19 @@
 #productdetailcard {
   top: 120px;
   width: 950px;
-  position: absolute;
+  position: relative;
+  height: 300px;
 }
 
 #details-home-button {
   right: 10px;
   position: absolute;
   top: -3px;
+}
+
+#checkout-container {
+  top: 115px;
+  width: 1000px;
+  background-color: white;
+  position: absolute;
 }

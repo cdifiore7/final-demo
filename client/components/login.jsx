@@ -52,9 +52,10 @@ class Login extends React.Component {
         <h2 id="logo">MegaPower PCs</h2>
         </Link>
         <hr id="top-line"></hr>
+        <div className="container" id="whitebox">
         <form onSubmit={this.handleSubmit} method="POST">
           <div className="container" size="lg" id="email">
-            <h2 id="signin">Sign In</h2>
+            <h3 id="signin">Sign In</h3>
             <h3 id="email-address">Email Address</h3>
             <input type="email" className="form-control" id="textbox1" name="email" onChange={this.handleChange}
             value={this.state.email}></input>
@@ -71,6 +72,7 @@ class Login extends React.Component {
             ENTER
           </button>
         </form>
+        </div>
       </div>);
   }
 }
