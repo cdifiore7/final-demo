@@ -25,6 +25,7 @@ export default class App extends React.Component {
     this.setView = this.setView.bind(this);
     this.addToCart = this.addToCart.bind(this);
     this.placeOrder = this.placeOrder.bind(this);
+    this.removeFromCart = this.removeFromCart.bind(this);
   }
 
   componentDidMount() {
@@ -33,10 +34,21 @@ export default class App extends React.Component {
 
   getCartItems() {
     fetch('./api/cart')
-      .then(resp => resp.json())
-      .then(resp => {
-        this.setState({ cart: resp });
-      });
+      .then(res => res.json())
+      .then(items => this.setState({ cart: items }))
+      .catch(err => console.error(err));
+  }
+
+  removeFromCart(id) {
+    fetch(`./api/cart/${id}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(() => {
+        const cartArray = this.state.cart.filter(item => item.cartItemId !== id);
+        this.setState({ cart: cartArray });
+      })
+      .catch(err => console.error(err));
   }
 
   addToCart(product) {
@@ -72,7 +84,7 @@ export default class App extends React.Component {
   setView(name, params) {
     this.setState({
       view: {
-        name,
+        name: name,
         params: params
       }
     });
@@ -82,7 +94,7 @@ export default class App extends React.Component {
     if (this.state.view.name === 'catalog') {
       return <Home setView={this.setView}/>;
     } else if (this.state.view.name === 'cart') {
-      return <CartSummary setView={this.setView} cartState={this.state.cart} items={this.state.cart.length} />;
+      return <CartSummary setView={this.setView} cart={this.state.cart} removeFromCart={this.removeFromCart}/>;
     } else if (this.state.view.name === 'checkout') {
       return <CheckoutForm placeOrder={this.placeOrder} cartState={this.state.cart}/>;
     } else {
