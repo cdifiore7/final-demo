@@ -87,6 +87,29 @@ app.get('/api/cart', (req, res, next) => {
   }
 });
 
+app.delete('/api/cart/:cartItemId', (req, res, next) => {
+  const cartItemId = parseInt(req.params.cartItemId, 10);
+  if (!req.session.cartId) {
+    next(new ClientError('There must be a cartId in session', 400));
+  } else if (!cartItemId || cartItemId < 1) {
+    next(new ClientError('The cartItemId must be a positive integer', 400));
+  } else {
+    const deleteCartItem = `
+      delete from "cartItems"
+            where "cartItemId" = $1
+              and "cartId" = $2
+        returning *;
+    `;
+    db.query(deleteCartItem, [cartItemId, req.session.cartId])
+      .then(result => {
+        return result.rows[0]
+          ? res.sendStatus(204)
+          : next(new ClientError('The cartItemId does not exist in the cartItems table', 400));
+      })
+      .catch(err => console.error(err));
+  }
+});
+
 app.post('/api/signup', (req, res, next) => {
   const { email, password } = req.body;
   if (!email || !password) {
